@@ -1,3 +1,3 @@
 ```terminal
-docker build -t ktcloud-msa-inventory-service:latest -f Containerfile .
+docker build --no-cache -t ktcloud-msa-inventory-service:latest -f Containerfile .
 ```

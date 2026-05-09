@@ -1,10 +1,8 @@
 FROM eclipse-temurin:21.0.9_10-jdk-jammy AS build
 WORKDIR /app
 
-COPY gradlew .
 COPY gradle gradle
-COPY build.gradle.kts .
-COPY settings.gradle.kts .
+COPY gradlew build.gradle.kts settings.gradle.kts./
 
 COPY inventory-event/build.gradle.kts inventory-event/
 COPY inventory-service/build.gradle.kts inventory-service/
@@ -22,7 +20,7 @@ WORKDIR /app
 RUN useradd -ms /bin/bash springuser
 USER springuser
 
-COPY --from=build inventory-service/build/libs/inventory-service-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/inventory-service/build/libs/inventory-service.jar app.jar
 
 ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=staging", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "app.jar"]
 
