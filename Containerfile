@@ -1,8 +1,10 @@
 FROM eclipse-temurin:21.0.9_10-jdk-jammy AS build
 WORKDIR /app
 
+COPY gradlew .
 COPY gradle gradle
-COPY gradlew build.gradle.kts settings.gradle.kts./
+COPY build.gradle.kts .
+COPY settings.gradle.kts .
 
 COPY inventory-event/build.gradle.kts inventory-event/
 COPY inventory-service/build.gradle.kts inventory-service/
