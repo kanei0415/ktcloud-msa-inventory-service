@@ -21,12 +21,7 @@ class LoadCacheSyncedInventoryPersistenceAdapter(
         val unprocessedInventoryEvents = inventoryEventQueryOutboundPort.fetchUnprocessedEvents(inventoryId)
 
         val calculatedQuantity = stateQuantity + unprocessedInventoryEvents.sumOf { it.amount }
-
-        val lastEventId = try{
-            unprocessedInventoryEvents.last().id
-        } catch (_: NoSuchElementException) {
-            0
-        }
+        val lastEventId = unprocessedInventoryEvents.last().id
 
         return Pair(calculatedQuantity, lastEventId)
     }

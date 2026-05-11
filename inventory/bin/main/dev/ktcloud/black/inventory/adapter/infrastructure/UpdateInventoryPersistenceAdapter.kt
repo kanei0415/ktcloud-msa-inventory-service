@@ -15,7 +15,7 @@ class UpdateInventoryPersistenceAdapter(
     override fun increase(
         inventoryId: Long,
         amount: Int
-    ): Int {
+    ): Long {
         val inventoryEvent = InventoryEventDomainEntity(
             inventoryId = inventoryId,
             amount = amount,
@@ -24,17 +24,19 @@ class UpdateInventoryPersistenceAdapter(
 
         val savedInventoryEvent = inventoryEventCommandOutboundPort.save(inventoryEvent)
 
-        return inventoryCacheCommandOutboundPort.increase(
+        inventoryCacheCommandOutboundPort.increase(
             inventoryId = savedInventoryEvent.inventoryId,
             amount = savedInventoryEvent.amount,
             eventId = savedInventoryEvent.id
         )
+
+        return savedInventoryEvent.id
     }
 
     override fun decrease(
         inventoryId: Long,
         amount: Int
-    ): Int {
+    ): Long {
         val inventoryEvent = InventoryEventDomainEntity(
             inventoryId = inventoryId,
             amount = amount,
@@ -43,10 +45,12 @@ class UpdateInventoryPersistenceAdapter(
 
         val savedInventoryEvent = inventoryEventCommandOutboundPort.save(inventoryEvent)
 
-        return inventoryCacheCommandOutboundPort.decrease(
+        inventoryCacheCommandOutboundPort.decrease(
             inventoryId = savedInventoryEvent.inventoryId,
             amount = savedInventoryEvent.amount,
             eventId = savedInventoryEvent.id
         )
+
+        return savedInventoryEvent.id
     }
 }

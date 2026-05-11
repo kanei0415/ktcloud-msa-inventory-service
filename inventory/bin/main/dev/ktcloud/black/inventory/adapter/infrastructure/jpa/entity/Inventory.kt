@@ -24,6 +24,7 @@ data class Inventory(
     val id: Long,
 
     @Column("product_id")
+    @JdbcTypeCode(Types.VARCHAR)
     val productId: String,
 
     @Column("sku_code")
