@@ -35,9 +35,8 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
+      - name: Checkout Manifest Repo
+        uses: actions/checkout@v4
         with:
           repository: 'kanei0415/ktcloud-market-msa-manifest-values'
           token: ${{ secrets.GH_PAT }}
